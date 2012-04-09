@@ -1,0 +1,21 @@
+<h1>Resultados de la busqueda</h1>
+
+<table>
+  <tr>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @patners.each do |patner| %>
+  <tr>
+    <td><%= link_to 'Seleccionar', patner %></td>
+    <td><%= link_to 'Edit', edit_patner_path(patner) %></td>
+    <td><%= link_to 'Destroy', patner, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Patner', new_patner_path %>

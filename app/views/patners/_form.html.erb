@@ -1,0 +1,322 @@
+<%= form_for(@patner) do |f| %>
+  <% if @patner.errors.any? %>
+    <div id="error_explanation" >
+      <h2><%= pluralize(@patner.errors.count, "error") %> al guardar el registro debido a:</h2>
+      <ul>
+        <% @patner.errors.full_messages.each do |msg| %>
+        <%=msg%><br>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <%if !@socio.nil?%>
+    <%= hidden_field_tag(:idSocio, @socio.ocr) %>   
+    <%=  hidden_field_tag(:esSocio, false) %>
+  <% else %>
+    <%= hidden_field_tag(:esSocio, true) %>    
+  <%end%>
+  <form id="registroin" name="registroin">
+    <h4 style="color: red">* Datos Obligatorios</h4>
+  <fieldset>
+    <legend>Ingresar Datos</legend>    
+      <div>
+        <table class="cssw" width="595" border="0">
+          <tr>
+            <td width="230"><%= f.label :"Numero Consecutivo Nacional:*"%></td>
+            <td width="244"><%= f.text_field :ocr, :required =>true, :maxlength=>'13',:onkeypress=>"return numeros(evt)",:onChange=>"validaTamanio(this)",:autocomplete=>"off" %></td>
+            <td width="110"><span id="errorocr" style="color:red; font-size:11px"></span></td>
+          </tr>
+          <tr>
+            <td width="230"><%= f.label :"Clave de Elector:*" %></td>
+            <td width="244"><%= f.text_field :clve, :required => true,:maxlength=>'18', :onChange=>"validaClave(this)",:autocomplete=>"off" %></td>
+            <td width="110"><span id="errorClave" style="color:red; font-size:11px "></span></td>
+          </tr>
+          <tr>
+            <td width="230"><%= f.label :"Número de Seccion:*" %></td>
+            <td width="244"><%= f.text_field :no_seccion,{:required => true, :maxlength=>'4',:onChange=>"validaSeccion(this)", :onkeypress=>"return numeros(evt)",:autocomplete=>"off" }%></td>
+            <td width="110"><span id="errorsec" style="color:red; font-size:9px"></span></td>
+          </tr>
+          <tr>
+            <td width="230"><%= f.label :"Número de emisión:*" %></td>
+            <td width="244"><%= f.text_field :no_emision, :required => true, :maxlength=>'2',:onkeypress=>"return numeros(evt)",:autocomplete=>"off"  %></td>
+            <td width="110"></td>
+          </tr>
+        </table>               
+      </div>      
+
+      <% if params[:modo].nil? %>              
+   <input id="btnContinuar" type="button" value="Continuar" onclick="mostrardiv('DatosPersonales')" style="display: none"/>
+  </fieldset>
+  <div id="DatosPersonales" style="display:none">
+    <%else%>
+    </fieldset>
+  <div id="DatosPersonales">  
+    <%end%>
+
+    <fieldset>
+      <legend>Datos Personales:</legend>
+      <lu>
+        <%= f.label :"Nombre(s):*" %>
+        <%= f.text_field :nombre, :required => true ,:onkeypress=>"return validar_texto(event)", :onChange=>"conMayusculas(this)",:autocomplete=>"off" %>
+        <%= f.label :"Apellido Paterno:*" %>
+        <%= f.text_field :apaterno, :onkeypress=>"return validar_texto(event)", :onChange=>"conMayusculas(this)",:autocomplete=>"off"  %>
+        <%= f.label :"Apellido Materno:*" %>
+        <%= f.text_field :amaterno, :onkeypress=>"return validar_texto(event)", :onChange=>"conMayusculas(this)",:autocomplete=>"off"  %>
+        <%= f.label :"Sexo:*" %>
+        <%= f.select :sexo, options_for_select([["Mujer", "m"], ["Hombre", "h"]]) %>
+        <%= f.label :"CURP:" %>
+        <%= f.text_field :curp,:maxlength=>'18', :onChange=>"conMayusculas(this)" %>
+        <%= f.label :"Municipio:*" %>
+        <%=  collection_select(:patner, :no_municipio, @municipios, :no_municipio, :nombreMunicipio , options ={:prompt => "Seleccione un Municipio"},:required=>true ) %>
+        <%= f.label :"Localidad:*" %>
+        <%= collection_select(:patner, :no_localidad,Location.find_all_by_no_municipio(:no_municipio), :no_localidad, :nombreLocalidad, options ={:prompt => "Seleccione localidad"}) %>
+        <%= f.label :"Domicilio:" %>
+        <%= f.text_field :domicilio, :onChange=>"conMayusculas(this)",:autocomplete=>"off"  %>
+        <%= f.label :"Colonia:" %>
+        <%= f.text_field :colonia, :onChange=>"conMayusculas(this)",:autocomplete=>"off"  %>
+        <%= f.label :"CP:" %>
+        <%= f.text_field :cp,  :maxlength=>'5', :onkeypress=>"return numeros(evt)",:autocomplete=>"off"   %>
+      </lu>
+    </fieldset>
+    <h4>¿Desea Agregar Datos de Contacto?  </h4> 
+<table width="74" border="0" align="center">
+  <tr>
+    <td width="29"><input type="button" value="Sí" onclick="mostrardiv('Contacto');mostrardiv('Finalizar')"/></td>
+    <td width="29"><input type="button" value="No" onclick="ocultardiv('Contacto');mostrardiv('Finalizar')"/></td>
+  </tr>
+</table>
+  </div>
+  <div id="Contacto" style="display:none">
+    <fieldset>
+      <legend>Datos de Contacto</legend>
+      <lu>
+        <%= f.label :"Telefono de casa:" %>
+        <%= f.text_field :tel_casa,:autocomplete=>"off"  %>
+        <%= f.label :"Telefono celular:" %>
+        <%= f.text_field :celular,:autocomplete=>"off"  %>
+        <%= f.label :"Radio:" %>
+        <%= f.text_field :radio ,:autocomplete=>"off" %>
+    	<%= f.label :"Facebook:" %>
+        <%= f.text_field :fb,:autocomplete=>"off"  %>
+        <%= f.label :"E-mail:" %>
+        <%= f.text_field :'e-mail',:autocomplete=>"off"  %>
+        <%= f.label :"Twitter:",:autocomplete=>"off"  %>
+        <%= f.text_field :tw %>
+      </lu>
+      
+    </fieldset>
+  </div>
+
+<div id="Finalizar" style="display:none"> 
+    <table width="74" border="0" align="center">
+  <tr>
+    <% if !params[:modo].nil? %>
+      <td width="400"><%= f.submit "Guardar cambios" %></td> 
+    <%else%>
+      <%if @socio.nil?%>  
+        <td width="400"><%= f.submit "Guardar y registrar otro" %></td> 
+        <td width="155"><%= f.submit "Finalizar registro" %></td>
+      <%else%>
+        <td width="155"><%= f.submit "Guardar"%></td>
+      <%end%>
+    <%end%>
+  </tr>
+</table>
+  </div>
+  </form>
+<%end%>
+
+<script type="text/javascript" charset="utf-8">
+
+b_ocr=false;
+b_clv=false;
+var b_sec=false;
+
+
+function conMayusculas(field) {
+    field.value = field.value.toUpperCase();
+}
+function mostrardiv(elemento) {
+    div = document.getElementById(elemento);
+    div.style.display = '';
+}
+function ocultardiv(elemento) {
+    div = document.getElementById(elemento);
+    div.style.display = 'none';
+}
+function numeros(evt){
+    var keyPressed = (evt.which) ? evt.which : event.keyCode
+    return !(keyPressed > 31 && (keyPressed < 48 || keyPressed > 57));
+}
+
+function validaClave(field) {    
+    b_clv=false;
+    var valor=field.value;
+    var texto= new String(valor);
+    var ini=/^[a-zA-Z]{6}/;
+    var fecha=/^.{6}(((([2,4,6,8][0,4,8])|([1,3,5,7,9][2,6]))0229)|(([1-8]\d|9[0-4])((0([1,3,5,7,8])|1(0|2))(0[1-9]|[12]\d|3[0,1])|((0([4,6,9])|11)(0[1-9]|[12]\d|30))|(02(0[1-9]|(1\d)|(2[0-8]))))))/;
+    var edo=/^.{12}(0[1-9]|(1|2)\d|3[0-2])/;
+    var genero=/^.{14}[HhMm]/;
+    var ultimos=/^.{15}\d{3}/;
+    if (texto.length ==18) {
+      if (ini.test(valor)) {
+        if (fecha.test(valor)) {
+          if (edo.test(valor)) {
+            if(genero.test(valor)){
+              if(ultimos.test(valor)){
+                valida_existe_clve(valor);
+                field.value=field.value.toUpperCase() 
+                validar_requeridos();                
+              }else{
+                document.getElementById("errorClave").innerHTML="Los ultimos 3 cáracteres deben ser dígitos" 
+              }
+            }else{
+              document.getElementById("errorClave").innerHTML="El cáracter 15 debe ser 'H' o 'M'";
+            }
+          }else{
+            document.getElementById("errorClave").innerHTML="Los cáracteres 13 y 14 no corresponden a una estado";
+          }
+        }else{
+          document.getElementById("errorClave").innerHTML="Los cáracteres del 7-12 no corresponden a una fecha valida";
+        }
+      }else{
+        document.getElementById("errorClave").innerHTML="Los primeros 6 cáracteres deben ser letras";
+      }
+    }else{
+      document.getElementById("errorClave").innerHTML="Debe tener 18 cáracteres";
+    }   
+    
+  }
+  function validaTamanio(field){
+    var s = new String(field.value);
+    if(s.length < 13){
+      document.getElementById("errorocr").innerHTML="Debe tener 13 dígitos";  
+    }else{
+      valida_existe_ocr(s);
+      validar_requeridos();
+    }       
+  }
+
+
+  function validaSeccion(field){
+    var s = new String(field.value);
+    b_sec=false;
+    if(s.length < 4){
+      document.getElementById("errorsec").innerHTML="Debe tener 4 dígitos";  
+    }
+    else{
+      var sec="^"+field.value;
+      var clv=document.getElementById("patner_ocr");
+      var patron= new RegExp(sec);
+      if(patron.test(clv.value)){
+        b_sec=true;
+        document.getElementById("errorsec").innerHTML="Ok";
+      }
+      else{
+        document.getElementById("errorsec").innerHTML="Deben coincidir con los 4 numeros iniciales del Consecutivo"; 
+      }       
+    }
+    validar_requeridos();
+  }
+
+function validar_texto(e) {
+  tecla = (document.all) ? e.keyCode : e.which;
+  //Tecla de retroceso para borrar, siempre la permite
+  if (tecla==8) return true; 
+  // Patron de entrada, en este caso solo acepta letras
+  patron =/[a-zA-Z,Ñ,ñ,áéíóÁÉÍÓ ]/; 
+  tecla_final = String.fromCharCode(tecla);
+  return patron.test(tecla_final); 
+}
+
+function validar_requeridos(){
+    if (b_clv&&b_ocr&&b_sec) {
+      mostrardiv("btnContinuar");
+     }
+    else{
+      ocultardiv("btnContinuar");
+       
+    }      
+}
+function valida_existe_ocr(valor){
+   $.ajax({
+    dataType: "json",
+    cache: false,
+    url: '/patners/existe_ocr/' + valor,
+    timeout: 2000,
+    error: function(XMLHttpRequest, errorTextStatus, error){
+      alert("Failed to submit : "+ errorTextStatus+" ;"+error +";"+id_value_string);      
+    },
+    success: function(data){           
+      var res= new String(data);    
+      var bol= /true/;
+      b_ocr=!bol.test(res);
+      if(bol.test(res)){
+        $("span#errorocr").html('El valor ya fue registrado anteriormente, intente con otro.');
+      }else{
+        $("span#errorocr").html('Ok');
+      }      
+    }
+  });
+}
+
+function valida_existe_clve(valor){
+   $.ajax({
+    dataType: "json",
+    cache: false,
+    url: '/patners/existe_clve/' + valor,
+    timeout: 2000,
+    error: function(XMLHttpRequest, errorTextStatus, error){
+      alert("Failed to submit : "+ errorTextStatus+" ;"+error +";"+id_value_string);      
+    },
+    success: function(data){  
+      var res= new String(data)
+      var bol= /true/;
+      b_clv=!bol.test(res);
+      if(bol.test(res)){
+        $("span#errorClave").html('El valor ya fue registrado anteriormente, intente con otro.');
+      }else{
+        $("span#errorClave").html('Ok');
+      }      
+    }
+  });
+}
+
+
+$(document).ready(function(){
+        $("select#patner_no_municipio").change(function(){
+            var id_value_string = $(this).val();
+            if (id_value_string == "") { 
+                // if the id is empty remove all the sub_selection options from being selectable and do not do any ajax
+                $("select#patner_no_localidad option").remove();
+                var row = "<option value=\"" + "" + "\">" + "" + "</option>";
+                $(row).appendTo("select#patner_no_localidad");
+            }
+            else {
+                // Send the request and update sub category dropdown 
+                $.ajax({
+                    dataType: "json",
+                    cache: false,
+                    url: '/patners/actualiza/' + id_value_string,
+                    timeout: 2000,
+                    error: function(XMLHttpRequest, errorTextStatus, error){
+                        alert("Failed to submit : "+ errorTextStatus+" ;"+error +";"+id_value_string);
+                    },
+                    success: function(data){                    
+                        // Clear all options from sub category select 
+                        $("select#patner_no_localidad option").remove();
+                        //put in a empty default line
+                        var row = "<option value=\"" + "" + "\">" + "" + "</option>";
+                        $(row).appendTo("select#patner_no_localidad");                        
+                        // Fill sub category select 
+                        $.each(data, function(i,j){
+                            row = "<option value=\"" + j.no_localidad + "\">" + j.nombreLocalidad+ "</option>";   
+                            $(row).appendTo("select#patner_no_localidad");                     
+                        });             
+                     }
+                });
+            };
+        });
+    });
+
+</script>

@@ -1,0 +1,10 @@
+<h1><%=@title%></h1>
+<% if !@socio.nil? %>
+<%=link_to "Cancelar registro", @socio%>
+<%else%>
+<%=link_to "Cancelar registro", current_user%>
+<%end%>
+
+<br>
+<br>
+<%= render 'form' %>

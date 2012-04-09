@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+<br></br>
+<fieldset>
+<ul>
+	<strong><%= @socio.nombrec %></strong></li>
+        <%= link_to 'Editar Informacion del Socio', edit_patner_path(@socio) %><br></br>
+	¿Desea Cambiar de Socio? <%= link_to 'Cambiar', new_search_path %>
+</ul></fieldset>
+ <form>
+<fieldset>
+<legend>Agremiados del Socio</legend>
+<br>
+<table>
+  <%if @patners.nil?%>
+  <tr>
+    <td>Sin Registros</td>
+  </tr>
+  <%else%>
+<% @patners.each do |patner| %>
+  <tr>
+    <td><%= patner.nombre%></td>    
+    <td><%= patner.apaterno%></td>
+    <td><%= patner.amaterno%></td>    
+    <td><%= link_to ' Editar', edit_patner_path(patner) %></td>
+  </tr>
+<% end %>
+  <%end%>
+</table>
+</fieldset>
+<%= link_to 'Registrar Agremiado', new_patner_path(:id_socio =>@socio.ocr) %></li>
+</form>

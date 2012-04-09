@@ -1,0 +1,79 @@
+<h1><%= @title %></h1>
+
+      <section class="round">
+        <% flash.each do |key, value| %>
+          <div class="flash <%= key %>"><%= value %></div>
+        <% end %>
+        <%= yield %>
+      </section>
+
+	<% if @result == 0 %>
+	 	<%= form_for(:search, :url => search_path) do |f| %>
+		<p>
+                <fieldset>
+                  <legend>Buscar Socio</legend>
+                  <lu>
+                    <%= f.label :"Número Consecutivo Nacional:" %>
+                    <%= f.text_field :ocr, :maxlength=>'13',:onkeypress=>"return numeros(evt)",:autocomplete=>"off"  %>
+                    <%= f.label :"Apellido paterno:" %>
+                    <%= f.text_field :ap, :onkeypress=>"return validar_texto(event)",:autocomplete=>"off", :onChange=>"conMayusculas(this)"  %>
+                    <%= f.label :"Apellido materno:" %>
+                    <%= f.text_field :am, :onkeypress=>"return validar_texto(event)",:autocomplete=>"off", :onChange=>"conMayusculas(this)"  %>
+                    <%= f.label :"nombre:" %>
+                    <%= f.text_field :nombre, :onkeypress=>"return validar_texto(event)",:autocomplete=>"off", :onChange=>"conMayusculas(this)"  %>
+                  </lu>
+                </fieldset>
+		<div class="actions">
+		  <%= f.submit "Buscar" %>
+		</div>
+		<% end %>
+	<%else%>
+                <p></p><br></br>
+                <fieldset>
+                  <legend>Resultados</legend>
+		<table>
+			<% @socios.each do |patner| %>
+				<tr>
+					<td><%= patner.nombrec %></td>    
+                                        <td><%= link_to 'Seleccionar', patner %></td>
+				</tr>
+			<% end %>
+		</table>
+                  </fieldset>
+<%= link_to 'Nueva busqueda', new_search_path %>
+	<%end%>
+
+<script type="text/javascript" charset="utf-8">
+
+var b_ocr=false;
+var b_clv=false;
+var b_sec=false;
+
+
+function numeros(evt){
+    var keyPressed = (evt.which) ? evt.which : event.keyCode
+    return !(keyPressed > 31 && (keyPressed < 48 || keyPressed > 57));
+}
+function validaTamanio(field){
+    var s = new String(field.value);
+    if(s.length < 13){
+      document.getElementById("errorocr").innerHTML="Debe tener 13 dígitos";  
+    }
+  }
+function validar_texto(e) {
+  tecla = (document.all) ? e.keyCode : e.which;
+  //Tecla de retroceso para borrar, siempre la permite
+  if (tecla==8) return true; 
+  // Patron de entrada, en este caso solo acepta letras
+  patron =/[a-zA-Z,Ñ,ñ,áéíóÁÉÍÓ ]/; 
+  tecla_final = String.fromCharCode(tecla);
+  return patron.test(tecla_final); 
+}
+
+function onMayusculas(field) {
+    field.value = field.value.toUpperCase();
+}
+
+</script>
+
+ 

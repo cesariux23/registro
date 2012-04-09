@@ -1,0 +1,26 @@
+<%= form_for(@user) do |f| %>
+  <% if @user.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@user.errors.count, "error") %> al crear el usuario debido <a href=""></a>:</h2>
+
+      <ul>
+      <% @user.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+<fieldset>
+  <legend>Datos Usuario</legend>
+  <lu>
+    <%= f.label :"nombre de usuario:" %>
+	<%= f.text_field :username ,:autocomplete=>"off"%>
+    <%= f.label :"Password:" %>
+    <%= f.text_field :password,:autocomplete=>"off" %>
+    <%= f.label :"Zona:" %>
+    <%= f.collection_select :id_coord, Cordination.all,:idcoordinacion,:coordinacion, :prompt => true%>
+    <%= f.submit %>
+  </lu>
+</fieldset>
+<% end %>
+

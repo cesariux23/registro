@@ -1,0 +1,50 @@
+<p id="notice"><%= notice %></p> 
+ <h3>Zona:<%= @coord.coordinacion %></h3><br>
+        <form>
+          <fieldset>
+            <legend>Información General de Zona</legend>
+            <br></br>         
+ 	<%if !@socios.nil? %>
+          <table width="324" border="0">
+            <tr>
+              <td width="263">Total de Registros:</label></td>
+              <td width="51"><strong><%= @socios.size%></strong></td>
+          </tr>
+          <tr>
+              <td width="263">Total de Socios:</td>
+              <td width="51"><strong><%= @nsoc %></strong></td>
+          </tr>
+          <tr>
+              <td width="263">Total de Agremiados:</td>
+              <td width="51"><strong><%= @nagr %></strong></td>
+          </tr>
+          </table>
+ 	<% else %>
+	 	<li>No hay datos registrados</li>
+ 	<% end %>
+          </fieldset>  
+ <br>
+ <br>
+ 
+ <fieldset>
+  <legend>Información Usuario</legend>
+            <br></br>             
+<% if current_user.people.size==0 %>
+ Sin datos personales del usuario <%= link_to 'Registrar datos', new_person_path %>
+ <% else %>
+ 	<strong><%= current_user.people.first.nombrec %></strong>   <%= link_to 'Cambiar datos', edit_person_path,:id=> current_user.people.first.idpersonal %>
+        <% end %><br>       
+        <p>
+         <table width="502" border="0">
+          <tr>
+              <td width="263">Total de registros del usuario:</td>
+              <td width="51"><strong><%= @socios.where("idusuario=?",current_user.id).size %></strong></td>
+              <td width="89"><% if @socios.size>0 %><%= link_to 'Buscar socio', search_path %><% end %></td>
+              <td width="89"><%= link_to 'Nuevo socio', new_patner_path %></td>
+          </tr>
+          </table> 
+           </fieldset> 
+        </form>
+
+
+

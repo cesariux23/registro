@@ -1,0 +1,15 @@
+<header>
+  <nav>
+    <% if signed_in? %>
+      <span>Usuario: <%= current_user.username %></span>
+    <% end %>
+    <ul id="menu">      
+      <% if signed_in? %>
+      <li><%= link_to "Inicio", current_user %></li>
+      <li><%= link_to "Cerrar Sesion", signout_path, :method => :delete %></li>
+      <% else %>
+      <li><%= link_to "Iniciar Sesion", signin_path %></li>
+      <% end %>
+    </ul>
+  </nav>
+</header>
