@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class Search 
 	def socios
     @socios_s ||= find_socios

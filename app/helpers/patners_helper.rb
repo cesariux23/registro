@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 module PatnersHelper
 	def render_local
 		@id_mun= params[:id_mun]

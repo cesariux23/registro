@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 RegistroVer::Application.routes.draw do
 
   get "principal/new"

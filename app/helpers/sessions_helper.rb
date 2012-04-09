@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 module SessionsHelper	
 
 def sign_in(user)
@@ -19,7 +20,7 @@ def sign_in(user)
 
  def deny_access
     store_location
-    redirect_to signin_path, :notice => "Necesita iniciar sesión para poder ver el contenido de esta página."
+    redirect_to signin_path, :notice => 'Necesita iniciar sesión para poder ver el contenido de esta página.'
   end
 
   def redirect_back_or(default)

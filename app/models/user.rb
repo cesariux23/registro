@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 require 'digest'
 class User < ActiveRecord::Base
 	has_many :people
