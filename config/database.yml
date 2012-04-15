@@ -12,11 +12,11 @@ development:
   adapter: mysql2
   encoding: utf8
   reconnect: false
-  database: registro_ver
+  database: eullerbt_registro_ver
   pool: 5
   username: root
   password: l170r3.12
-  socket: /var/run/mysqld/mysqld.sock
+  socket: /tmp/mysql.sock
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -25,11 +25,11 @@ test:
   adapter: mysql2
   encoding: utf8
   reconnect: false
-  database: registro_ver
+  database: eullerbt_registro_ver
   pool: 5
   username: root
   password: l170r3.12
-  socket: /var/run/mysqld/mysqld.sock
+  socket: /tmp/mysql.sock
 
 production:
   adapter: mysql2
@@ -37,6 +37,7 @@ production:
   reconnect: false
   database: registro_ver
   pool: 5
-  username: root
+  username: euller
   password: l170r3.12
-  socket: /var/run/mysqld/mysqld.sock
+  host: mysql.grupo3012.info
+  port: 3306
