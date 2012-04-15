@@ -12,13 +12,18 @@
   <% end %>
 <fieldset>
   <legend>Datos Usuario</legend>
-  <lu>
+  <lu>    
     <%= f.label :"nombre de usuario:" %>
 	<%= f.text_field :username ,:autocomplete=>"off"%>
     <%= f.label :"Password:" %>
     <%= f.text_field :password,:autocomplete=>"off" %>
     <%= f.label :"Zona:" %>
     <%= f.collection_select :id_coord, Cordination.all,:idcoordinacion,:coordinacion, :prompt => true%>
+    <%= f.label :"roll:" %>
+    <%= f.select :rol, options_for_select([["Capturista", "0"], ["Coordinador", "1"]]) %>
+    <%= f.label :"Activo:" %>
+    <%= f.select :enabled, options_for_select([["Sí", "1"], ["No", "0"]]) %>
+
     <%= f.submit %>
   </lu>
 </fieldset>

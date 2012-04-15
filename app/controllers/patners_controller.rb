@@ -37,7 +37,7 @@ class PatnersController < ApplicationController
       @title="Registrar agremiado"
     end
     
-    @municipios= Municipality.where("idcoordinacion= ?", current_user.id_coord)
+    @municipios= Municipality.where("idcoordinacion= ?", current_user.id_coord).order("nombreMunicipio")
     respond_to do |format|
       format.html # new.html.erb
       format.json { render :json => @patner}
@@ -46,7 +46,7 @@ class PatnersController < ApplicationController
 
   # GET /patners/1/edit
   def edit
-    @municipios= Municipality.where("idcoordinacion= ?", current_user.id_coord) 
+    @municipios= Municipality.where("idcoordinacion= ?", current_user.id_coord).order("nombreMunicipio")
     @patner = Patner.find(params[:id])
     params[:modo]='edit'
   end
@@ -54,7 +54,7 @@ class PatnersController < ApplicationController
   # POST /patners
   # POST /patners.json
   def create
-    @patner = Patner.new(params[:patner].merge({:no_localidad =>1, :idCoordinacion=> current_user.id_coord, :idusuario =>current_user.id, :esSocio=> params[:esSocio], :idSocio=> params[:idSocio]}))
+    @patner = Patner.new(params[:patner].merge({:idCoordinacion=> current_user.id_coord, :idusuario =>current_user.id, :esSocio=> params[:esSocio], :idSocio=> params[:idSocio]}))
     respond_to do |format|
       if @patner.save
         @socio=Patner.find(params[:idSocio]) unless params[:idSocio].nil?
@@ -139,7 +139,7 @@ class PatnersController < ApplicationController
     end
     
   def actualiza
-  	@localidades = Location.where("no_municipio =?", params[:id])	    
+  	@localidades = Location.where("no_municipio =?", params[:id]).order("nombreLocalidad") 
     respond_to do |format|
     	format.json  { render :json => @localidades }      
     end  	  	

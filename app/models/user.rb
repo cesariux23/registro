@@ -3,7 +3,7 @@ require 'digest'
 class User < ActiveRecord::Base
 	has_many :people
   attr_accessor :password
-	attr_accessible :username, :password, :enabled, :id_coord, :is_admin
+	attr_accessible :username, :password, :enabled, :id_coord, :is_admin,:rol
 	validates_presence_of :username, :password, :message => "Campo vacio"
 	validates_presence_of :id_coord, :message => "Seleccione un valor"
 	validates :username, :uniqueness => {:message=>"Ya existe en la base"}

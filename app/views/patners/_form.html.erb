@@ -69,7 +69,7 @@
         <%= f.label :"Municipio:*" %>
         <%=  collection_select(:patner, :no_municipio, @municipios, :no_municipio, :nombreMunicipio , options ={:prompt => "Seleccione un Municipio"},:required=>true ) %>
         <%= f.label :"Localidad:*" %>
-        <%= collection_select(:patner, :no_localidad,Location.find_all_by_no_municipio(:no_municipio), :no_localidad, :nombreLocalidad, options ={:prompt => "Seleccione localidad"}) %>
+        <%= collection_select(:patner, :no_localidad,Location.find_all_by_no_municipio(:no_municipio), :no_localidad, :nombreLocalidad, options ={:prompt => "Seleccione localidad"}) %>    
         <%= f.label :"Domicilio:" %>
         <%= f.text_field :domicilio, :onChange=>"conMayusculas(this)",:autocomplete=>"off"  %>
         <%= f.label :"Colonia:" %>
@@ -113,7 +113,7 @@
     <% if !params[:modo].nil? %>
       <td width="400"><%= f.submit "Guardar cambios" %></td> 
     <%else%>
-      <%if @socio.nil?%>  
+      <%if !@socio.nil?%>  
         <td width="400"><%= f.submit "Guardar y registrar otro" %></td> 
         <td width="155"><%= f.submit "Finalizar registro" %></td>
       <%else%>
@@ -252,7 +252,8 @@ function valida_existe_ocr(valor){
       var bol= /true/;
       b_ocr=!bol.test(res);
       if(bol.test(res)){
-        $("span#errorocr").html('El valor ya fue registrado anteriormente, intente con otro.');
+        $("span#errorocr").html('El valor ya existe en la base de datos');
+        alert('El valor ya fue registrado anteriormente, intente con otro.');
       }else{
         $("span#errorocr").html('Ok');
       }      
@@ -274,7 +275,8 @@ function valida_existe_clve(valor){
       var bol= /true/;
       b_clv=!bol.test(res);
       if(bol.test(res)){
-        $("span#errorClave").html('El valor ya fue registrado anteriormente, intente con otro.');
+        $("span#errorClave").html('El valor ya existe en la base de datros');
+        alert('El valor ya fue registrado anteriormente, intente con otro.');
       }else{
         $("span#errorClave").html('Ok');
       }      

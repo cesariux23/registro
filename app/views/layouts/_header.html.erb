@@ -1,7 +1,7 @@
 <header>
   <nav>
     <% if signed_in? %>
-      <span>Usuario: <%= current_user.username %></span>
+      <span id="username"><strong>Usuario: <%= current_user.username %></strong></span>
     <% end %>
     <ul id="menu">      
       <% if signed_in? %>

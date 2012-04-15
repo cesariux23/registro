@@ -1,5 +1,6 @@
 <p id="notice"><%= notice %></p> 
- <h3>Zona:<%= @coord.coordinacion %></h3><br>
+<br>
+ <h3>Zona: <strong><%= @coord.coordinacion %></strong></h3><br>
         <form>
           <fieldset>
             <legend>Información General de Zona</legend>
@@ -35,12 +36,12 @@
  	<strong><%= current_user.people.first.nombrec %></strong>   <%= link_to 'Cambiar datos', edit_person_path,:id=> current_user.people.first.idpersonal %>
         <% end %><br>       
         <p>
-         <table width="502" border="0">
+         <table width="602" border="0">
           <tr>
               <td width="263">Total de registros del usuario:</td>
               <td width="51"><strong><%= @socios.where("idusuario=?",current_user.id).size %></strong></td>
-              <td width="89"><% if @socios.size>0 %><%= link_to 'Buscar socio', search_path %><% end %></td>
-              <td width="89"><%= link_to 'Nuevo socio', new_patner_path %></td>
+              <td width="100"><% if @socios.size>0 %><%= link_to 'Buscar socio', search_path %><% end %></td>
+              <td width="100"><%= link_to 'Nuevo socio', new_patner_path %></td>
           </tr>
           </table> 
            </fieldset> 
